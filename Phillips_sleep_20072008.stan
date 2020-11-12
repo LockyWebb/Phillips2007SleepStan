@@ -1,9 +1,10 @@
 //
 // This Stan program is the basic Phillips sleep model from 
 // Phillips 2007 and 2008
+// using cmdstan
 
-vector phillipssleep07(real Q_max, real theta, real sigma, real nu_ma_Q_ao, real nu_vm, real nu_mv, 
-real nu_vc, real nu_vh, real chi, real mu, real tau_m, real tau_v, real c_0, real omega, real alpha)
+//vector phillipssleep07(real Q_max, real theta, real sigma, real nu_ma_Q_ao, real nu_vm, real nu_mv, 
+//real nu_vc, real nu_vh, real chi, real mu, real tau_m, real tau_v, real c_0, real omega, real alpha)
 
 
 
@@ -48,7 +49,8 @@ functions {
     dydt[2] = (nu_ma_Q_ao + nu_mv*Sigm(Y[1],Q_max,theta,sigma) - Y[2])/(tau_m/3600);
 
   	dydt[3] = (mu*Sigm(Y[2],Q_max,theta,sigma) - Y[3])/chi;
-	
+  	
+  	return dydt;
     
   }
 
@@ -68,4 +70,31 @@ functions {
     return C;
   }
   
+}
+
+data {
+  int<lower = 1>    T;       // number of points
+  real              t0;      // inital time 
+  real<lower = t0>  ts[T];   // times values
+  real              y0;      // inital value
+  real              Y[T];    // funciotn values
+  real            
+}
+
+parameters {
+  real Q_max;
+  real theta; 
+  real sigma; 
+  real nu_ma_Q_ao;
+  real nu_vm;
+  real nu_mv;
+  real nu_vc; 
+  real nu_vh; 
+  real chi; 
+  real mu; 
+  real tau_m; 
+  real tau_v; 
+  real c_0; 
+  real omega; 
+  real alpha;
 }
