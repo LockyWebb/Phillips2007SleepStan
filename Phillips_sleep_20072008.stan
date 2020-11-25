@@ -25,6 +25,23 @@
 // end
 
 functions {
+  
+  real Sigm(real x,
+                real Q_max,
+                real theta,
+                real sigma) {
+    real Q = (Q_max/(1 + exp(-(x-theta)/sigma)));
+    return Q;
+  }
+  
+  real C_drv(real t,
+                 real c_0, 
+                 real omega,
+                 real alpha) {
+    real C = c_0 + cos(omega*t + alpha);
+    return C;
+  }
+  
   vector phillipssleep07(real t, 
                          vector Y, 
                          real Q_max, 
@@ -54,27 +71,13 @@ functions {
     
   }
 
-  real Sigm(real x,
-                real Q_max,
-                real theta,
-                real sigma) {
-    Q = (Q_max/(1 + exp(-(x-theta)/sigma)));
-    return Q;
-  }
   
-  real C_drv(real t,
-                 real c_0, 
-                 real omega,
-                 real alpha) {
-    C = c_0 + cos(omega*t + alpha);
-    return C;
-  }
   
 }
 
 data {
   int<lower = 1>    T;       // number of points
-  real<lower = t0>  ts[T];   // times values
+  real<lower = 0>  ts[T];   // times values
   vector[3]         y0;      // inital value
   //real              Y[T];    // function values
   //real            
@@ -95,7 +98,7 @@ transformed data{
   real tau_m = 10; 
   real tau_v = 10; 
   real c_0 = 4.5; 
-  real omega = 2*pi/24; 
+  real omega = 0.2617994; // 2*pi/24
   real alpha = 0;
 }
 
@@ -104,7 +107,7 @@ transformed data{
 //}
 
 transformed parameters{
-  vector[3] Y[T] = ode_rk45(phillipssleep07, y0, t0, t,
+  vector[3] Y[T] = ode_rk45(phillipssleep07, y0, t0, ts,
                             Q_max, theta, sigma, nu_ma_Q_ao, nu_vm, 
                             nu_mv, nu_vc, nu_vh, chi, mu,  tau_m, 
                             tau_v, c_0, omega, alpha);
