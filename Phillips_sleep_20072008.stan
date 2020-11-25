@@ -82,30 +82,34 @@ data {
 
 transformed data{
   real t0 = 0;      // inital time 
+  real Q_max = 100;
+  real theta = 10; 
+  real sigma = 3; 
+  real nu_ma_Q_ao = 1.3;
+  real nu_vm = -2.1;
+  real nu_mv = -1.8;
+  real nu_vc = -2.9; 
+  real nu_vh = 1.0; 
+  real chi = 45; 
+  real mu = 4.4; 
+  real tau_m = 10; 
+  real tau_v = 10; 
+  real c_0 = 4.5; 
+  real omega = 2*pi/24; 
+  real alpha = 0;
 }
 
-parameters {
-  real Q_max;
-  real theta; 
-  real sigma; 
-  real nu_ma_Q_ao;
-  real nu_vm;
-  real nu_mv;
-  real nu_vc; 
-  real nu_vh; 
-  real chi; 
-  real mu; 
-  real tau_m; 
-  real tau_v; 
-  real c_0; 
-  real omega; 
-  real alpha;
-}
+//parameters {
+// 
+//}
 
 transformed parameters{
-  vector[3] Y[T] = ode_rk45_tol(phillipssleep07, )
+  vector[3] Y[T] = ode_rk45(phillipssleep07, y0, t0, t,
+                            Q_max, theta, sigma, nu_ma_Q_ao, nu_vm, 
+                            nu_mv, nu_vc, nu_vh, chi, mu,  tau_m, 
+                            tau_v, c_0, omega, alpha);
 }
 
-model {
-  
-}
+//model {
+//  
+//}
