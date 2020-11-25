@@ -74,11 +74,14 @@ functions {
 
 data {
   int<lower = 1>    T;       // number of points
-  real              t0;      // inital time 
   real<lower = t0>  ts[T];   // times values
-  real              y0;      // inital value
-  real              Y[T];    // funciotn values
-  real            
+  vector[3]         y0;      // inital value
+  //real              Y[T];    // function values
+  //real            
+}
+
+transformed data{
+  real t0 = 0;      // inital time 
 }
 
 parameters {
@@ -97,4 +100,12 @@ parameters {
   real c_0; 
   real omega; 
   real alpha;
+}
+
+transformed parameters{
+  vector[3] Y[T] = ode_rk45_tol(phillipssleep07, )
+}
+
+model {
+  
 }
