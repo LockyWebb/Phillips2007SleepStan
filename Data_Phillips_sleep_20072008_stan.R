@@ -9,7 +9,7 @@ y0 = c(-18, 1, 14)
 time_step = 0.05
 
 # time values (not including time 0)
-ts = seq(time_step,240, time_step)  
+ts = seq(time_step,48, time_step)  
 
 # number of points (not including time 0)
 T_n = length(ts)
