@@ -61,11 +61,11 @@ functions {
                          real alpha) {
     vector[3] dydt;
     
-    dydt[1] = (nu_vm*Sigm(Y[2],Q_max,theta,sigma) + nu_vc*C_drv(t,c_0, omega,alpha) + nu_vh*Y[3] - Y[1])/(tau_v/3600);
+    dydt[1] = (nu_vm*Sigm(Y[2],Q_max,theta,sigma) + nu_vc*C_drv(t,c_0, omega,alpha) + nu_vh*Y[3] - Y[1])/(tau_v/3600); // Vv
 	
-    dydt[2] = (nu_ma_Q_ao + nu_mv*Sigm(Y[1],Q_max,theta,sigma) - Y[2])/(tau_m/3600);
+    dydt[2] = (nu_ma_Q_ao + nu_mv*Sigm(Y[1],Q_max,theta,sigma) - Y[2])/(tau_m/3600); // Vm
 
-  	dydt[3] = (mu*Sigm(Y[2],Q_max,theta,sigma) - Y[3])/chi;
+  	dydt[3] = (mu*Sigm(Y[2],Q_max,theta,sigma) - Y[3])/chi; // H
   	
   	return dydt;
     
@@ -111,6 +111,10 @@ transformed parameters{
                             Q_max, theta, sigma, nu_ma_Q_ao, nu_vm, 
                             nu_mv, nu_vc, nu_vh, chi, mu,  tau_m, 
                             tau_v, c_0, omega, alpha);
+                            
+  real state = 1.0*(Y[T_n,2]>Y[T_n,1]); // 1/TRUE is wake, 0/FALSE is sleep
+                            
+                            
 }
 
 model {
