@@ -76,10 +76,10 @@ functions {
 }
 
 data {
-  int<lower = 1>    T;       // number of points
-  real<lower = 0>  ts[T];   // times values
+  int<lower = 1>    T_n;       // number of points
+  real<lower = 0>  ts[T_n];   // times values
   vector[3]         y0;      // inital value
-  //real              Y[T];    // function values
+  //real              Y[T_n];    // function values
   //real            
 }
 
@@ -93,7 +93,7 @@ transformed data{
   real nu_mv = -1.8;
   real nu_vc = -2.9; 
   real nu_vh = 1.0; 
-  real chi = 45; 
+  //real chi = 45; 
   real mu = 4.4; 
   real tau_m = 10; 
   real tau_v = 10; 
@@ -102,17 +102,17 @@ transformed data{
   real alpha = 0;
 }
 
-//parameters {
-// 
-//}
+parameters {
+ real chi;
+}
 
 transformed parameters{
-  vector[3] Y[T] = ode_rk45(phillipssleep07, y0, t0, ts,
+  vector[3] Y[T_n] = ode_rk45(phillipssleep07, y0, t0, ts,
                             Q_max, theta, sigma, nu_ma_Q_ao, nu_vm, 
                             nu_mv, nu_vc, nu_vh, chi, mu,  tau_m, 
                             tau_v, c_0, omega, alpha);
 }
 
-//model {
-//  
-//}
+model {
+  chi ~ normal(45,1);
+}
