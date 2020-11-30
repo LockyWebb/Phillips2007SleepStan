@@ -70,6 +70,13 @@ functions {
   	return dydt;
     
   }
+  
+  real get_state(vector Y) {
+    real state;
+    state = 1.0*(Y[2] > Y[1]);
+    //state = to_array_1d(state);
+    return state;
+  }
 
   
   
@@ -81,6 +88,7 @@ data {
   vector[3]         y0;      // inital value
   //real              Y[T_n];    // function values
   //real            
+  real             state_obs[T_n];
 }
 
 transformed data{
@@ -112,11 +120,31 @@ transformed parameters{
                             nu_mv, nu_vc, nu_vh, chi, mu,  tau_m, 
                             tau_v, c_0, omega, alpha);
                             
-  real state = 1.0*(Y[T_n,2]>Y[T_n,1]); // 1/TRUE is wake, 0/FALSE is sleep
-                            
-                            
+  
+  real state[T_n];
+  for (n in 1:T_n){
+    if (Y[n,2]>Y[n,1])
+      state[n] = 1;
+    else 
+      state[n] = 0;
+  }
+    //state[n] = 1.0*(Y[n,2]>Y[n,1]); // 1/TRUE is wake, 0/FALSE is sleep
+    
+  real prop_sleep = sum(state)/T_n;
+    
 }
 
 model {
   chi ~ normal(45,1);
+  
+  for (n in 1:T_n){
+    state_obs[n] ~ normal(state[n], 0.01);
+  }
+   
+  
+
+}
+
+generated quantities {
+
 }
