@@ -14,3 +14,4 @@ ts = seq(time_step,48, time_step)
 # number of points (not including time 0)
 T_n = length(ts)
 
+state_test = readRDS("state_tester.rds")

@@ -146,5 +146,11 @@ model {
 }
 
 generated quantities {
-
+//real state[T_n];
+//  for (n in 1:T_n){
+//    if (Y[n,2]>Y[n,1])
+//      state[n] = 1;
+//    else 
+//      state[n] = 0;
+//  }
 }
