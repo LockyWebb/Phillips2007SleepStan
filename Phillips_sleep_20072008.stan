@@ -88,7 +88,8 @@ data {
   vector[3]         y0;      // inital value
   //real              Y[T_n];    // function values
   //real            
-  real             state_obs[T_n];
+  //real             state_obs[T_n];
+  real             prop_obs;
 }
 
 transformed data{
@@ -137,9 +138,11 @@ transformed parameters{
 model {
   chi ~ normal(45,1);
   
-  for (n in 1:T_n){
-    state_obs[n] ~ normal(state[n], 0.01);
-  }
+  //for (n in 1:T_n){
+  //  state_obs[n] ~ normal(state[n], 0.01);
+  //}
+  
+  prop_obs ~ normal(prop_sleep, 0.01);
    
   
 

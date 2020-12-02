@@ -15,3 +15,5 @@ ts = seq(time_step,48, time_step)
 T_n = length(ts)
 
 state_test = readRDS("state_tester.rds")
+
+prop_test =  sum(state_test==1)/length(state_test)

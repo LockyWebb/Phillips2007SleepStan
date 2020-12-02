@@ -16,20 +16,23 @@ setwd("L:/Lab_JamesR/lachlanW/sleep model/Phillips2007SleepStan")
 cmdstan_path()
 cmdstan_version()
 
+#check_cmdstan_toolchain(fix=TRUE)
+
 # compile model
 mod <- cmdstan_model("Phillips_sleep_20072008.stan")
 
 # get data 
 source("Data_Phillips_sleep_20072008_stan.R")
 #data_sleep <- list(T_n = T_n, ts = ts, y0 = y0)
-data_sleep <- list(T_n = T_n, ts = ts, y0 = y0, state_obs = state_test)
+#data_sleep <- list(T_n = T_n, ts = ts, y0 = y0, state_obs = state_test)
+data_sleep <- list(T_n = T_n, ts = ts, y0 = y0, prop_obs = prop_test)
 
 fit <- mod$sample(
   data = data_sleep,
   seed = 123,
   chains = 4,
   parallel_chains = 2,
-  refresh = 500
+  refresh = 10
 )
 
 ests_sum <- fit$summary()
